@@ -7,7 +7,7 @@
     <button v-on:click="createGame">Create Game</button>
     <div class="gamesTable">
       <div v-for="(game, index) in getGames.games" :key="index">
-        <p>created {{ game.created }}</p>
+        <p>Date {{ game.created }}</p>
 
         <div v-for="(gamePlayer, index) in game.gamePlayers" :key="index">
           <div>{{ gamePlayer.player.userName }}</div>

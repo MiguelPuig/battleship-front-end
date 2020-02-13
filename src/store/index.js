@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router/index.js";
 Vue.use(Vuex);
+const url = "https://arcane-reaches-34035.herokuapp.com"
 
 export default new Vuex.Store({
   state: {
@@ -15,8 +16,15 @@ export default new Vuex.Store({
     set_ladderBoard: (state, payload) => (state.LadderBoard = payload)
   },
   actions: {
+
+    // fetchingInt(){
+    //   var fetchingINterval = setInterval(actOneGame, 1000)
+
+    //   clearInterval(fetchingINterval);
+    // },
+
     getAllGames(context) {
-      fetch("/api/games", {
+      fetch(url + "/api/games", {
         credentials: "include",
         method: "GET"
       })
@@ -36,7 +44,7 @@ export default new Vuex.Store({
     },
 
     actOneGame(context, gameId) {
-      fetch("/api/game_view/" + gameId, {
+      fetch(url +"/api/game_view/" + gameId, {
         credentials: "include",
         method: "GET"
       })
@@ -47,7 +55,6 @@ export default new Vuex.Store({
           throw new Error("bad request");
         })
         .then(game => {
-          console.log(game);
           context.commit("set_oneGame", game);
         })
         .catch(error => {
@@ -55,7 +62,7 @@ export default new Vuex.Store({
         });
     },
     actLadderBoard(context) {
-      fetch("/api/ladderBoard", {
+      fetch(url +"/api/ladderBoard", {
         credentials: "include",
         method: "GET"
       })
@@ -75,7 +82,7 @@ export default new Vuex.Store({
     },
 
     actLogIn({ commit }, payload) {
-      fetch("/api/login", {
+      fetch(url +"/api/login", {
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
@@ -102,7 +109,7 @@ export default new Vuex.Store({
     },
 
     actLogOut() {
-      fetch("/api/logout", {
+      fetch(url +"/api/logout", {
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
@@ -118,7 +125,7 @@ export default new Vuex.Store({
     },
 
     actRegister({ commit, dispatch }, payload) {
-      fetch("/api/register", {
+      fetch(url +"/api/register", {
         credentials: "include",
         headers: {
           "Content-Type": "application/json"
@@ -137,24 +144,28 @@ export default new Vuex.Store({
         });
     },
     actCreateGame() {
-      fetch("/api/games", {
+      fetch(url +"/api/games", {
         credentials: "include",
         headers: {
           "Content-Type": "application/json"
         },
         method: "POST"
       })
+      .then(newData => {
+        return newData.json();
+      })
         .then(function(data) {
           if (data.error) {
             console.log("Error: ", data);
           } else console.log("New Game Created: ", data);
+          router.push("/game/" + data.gpId)
         })
         .catch(function(error) {
           console.log("Error: ", error);
         });
     },
     actJoinGame({ commit }, gameId) {
-      fetch("/api/game/" + gameId + "/players", {
+      fetch(url +"/api/game/" + gameId + "/players", {
         credentials: "include",
         headers: {
           "Content-Type": "application/json"
@@ -178,7 +189,7 @@ export default new Vuex.Store({
     actPlaceShips({ commit, dispatch }, {gpId, ships}) {
       console.log(ships, gpId);
       
-      fetch("/api/games/players/"+ gpId +"/ships", {
+      fetch(url +"/api/games/players/"+ gpId +"/ships", {
         credentials: "include",
         headers: {
           "Content-Type": "application/json"
@@ -203,7 +214,7 @@ export default new Vuex.Store({
     actPlaceSalvos({ commit, dispatch }, {gpId, salvos}) {
       console.log(salvos, gpId);
       
-      fetch("/api/games/players/"+ gpId +"/salvos", {
+      fetch(url +"/api/games/players/"+ gpId +"/salvos", {
         credentials: "include",
         headers: {
           "Content-Type": "application/json"

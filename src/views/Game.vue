@@ -1,6 +1,9 @@
 <template>
   <div v-if="getOneGame.length != 0" class="game">
     <h1>Game Locations</h1>
+
+    <div>{{ getOneGame.state.Logic }}</div>
+
     <div class="versus">
       <div>{{ getOneGame.games.gamePlayers[0].player.userName }}</div>
       <span>VS</span>
@@ -10,8 +13,6 @@
       <div v-else>Waiting for opponent</div>
     </div>
 
-    <!-- <div
-    v-for=("shipName, index) in shipsToSend.type" :key="index" -->
     <div
       :id="shipName.type + 'shipName'"
       v-for="(shipName, index) in shipsToSend"
@@ -20,156 +21,96 @@
       {{ shipName.type }}
     </div>
 
-    <div
-      :class="
-        shipOrientations['PatrolBoat'] ? 'PatrolBoatClass' : 'PatrolBoatClass2'
-      "
-      src="../assets/PatrolBoat.png"
-      id="PatrolBoat"
-      data-ship-length="2"
-      data-ship-type="PatrolBoat"
-      :draggable="true"
-      @dragstart="dragstart"
-      @dragover.stop
-      @click="turnShip($event, 'PatrolBoat')"
-    >
-      PATROL BOAT
-    </div>
+    <div class="station" v-if="this.positionShips.length == 0">
+      <div
+        :class="
+          shipOrientations['PatrolBoat']
+            ? 'PatrolBoatClass'
+            : 'PatrolBoatClass2'
+        "
+        src="../assets/PatrolBoat.png"
+        id="PatrolBoat"
+        class="visibility"
+        data-ship-length="2"
+        data-ship-type="PatrolBoat"
+        :draggable="true"
+        @dragstart="dragstart"
+        @dragover.stop
+        @click="turnShip($event, 'PatrolBoat')"
+      >
+        PATROL BOAT
+      </div>
 
-     <div
-      v-if="shipOrientations['Destroyer']"
-      :class="
-        shipOrientations['Destroyer'] ? 'DestroyerClass' : 'DestroyerClass2'
-      "
-      src="../assets/Destroyer3.png"
-      id="Destroyer"
-      class="DestroyerClass"
-      data-ship-length="3"
-      data-ship-type="Destroyer"
-      :draggable="true"
-      @dragstart="dragstart"
-      @dragover.stop
-      @click="turnShip($event, 'Destroyer')"
-    >
-      DESTROYER
-    </div>
+      <div
+        :class="
+          shipOrientations['Destroyer'] ? 'DestroyerClass' : 'DestroyerClass2'
+        "
+        src="../assets/Destroyer3.png"
+        id="Destroyer"
+        class="visibility"
+        data-ship-length="3"
+        data-ship-type="Destroyer"
+        :draggable="true"
+        @dragstart="dragstart"
+        @dragover.stop
+        @click="turnShip($event, 'Destroyer')"
+      >
+        DESTROYER
+      </div>
 
-     <div
-      v-else
-      src="../assets/Destroyer4.png"
-      id="Destroyer2"
-      class="DestroyerClass2"
-      data-ship-length="3"
-      data-ship-type="Destroyer"
-      :draggable="true"
-      @dragstart="dragstart"
-      @dragover.stop
-      @click="turnShip($event, 'Destroyer')"
-    >
-      DESTROYER
-    </div>
+      <div
+        :class="
+          shipOrientations['Submarine'] ? 'SubmarineClass' : 'SubmarineClass2'
+        "
+        src="../assets/Submarine.png"
+        id="Submarine"
+        class="visibility"
+        data-ship-length="3"
+        data-ship-type="Submarine"
+        :draggable="true"
+        @dragstart="dragstart"
+        @dragover.stop
+        @click="turnShip($event, 'Submarine')"
+      >
+        SUBMARINE
+      </div>
 
-  <div
-      v-if="shipOrientations['Submarine']"
-      :class="
-        shipOrientations['Submarine'] ? 'SubmarineClass' : 'SubmarineClass2'
-      "
-      src="../assets/Submarine.png"
-      id="Submarine"
-      class="SubmarineClass"
-      data-ship-length="3"
-      data-ship-type="Submarine"
-      :draggable="true"
-      @dragstart="dragstart"
-      @dragover.stop
-      @click="turnShip($event, 'Submarine')"
-    >
-      SUBMARINE
-    </div>
+      <div
+        :class="
+          shipOrientations['Battleship']
+            ? 'BattleshipClass'
+            : 'BattleshipClass2'
+        "
+        src="../assets/Battleship.png"
+        id="Battleship"
+        class="visibility"
+        data-ship-length="4"
+        data-ship-type="Battleship"
+        :draggable="true"
+        @dragstart="dragstart"
+        @dragover.stop
+        @click="turnShip($event, 'Battleship')"
+      >
+        BATTLESHIP
+      </div>
 
-     <div
-      v-else
-      src="../assets/Submarine2.png"
-      id="Submarine2"
-      class="SubmarineClass2"
-      data-ship-length="3"
-      data-ship-type="Submarine"
-      :draggable="true"
-      @dragstart="dragstart"
-      @dragover.stop
-      @click="turnShip($event, 'Submarine')"
-    >
-      SUBMARINE
+      <div
+        :class="shipOrientations['Carrier'] ? 'CarrierClass' : 'CarrierClass2'"
+        src="../assets/Carrier.png"
+        id="Carrier"
+        class="visibility"
+        data-ship-length="5"
+        data-ship-type="Carrier"
+        :draggable="true"
+        @dragstart="dragstart"
+        @dragover.stop
+        @click="turnShip($event, 'Carrier')"
+      >
+        CARRIER
+      </div>
     </div>
-
-    <div
-      v-if="shipOrientations['Battleship']"
-      :class="
-        shipOrientations['Battleship'] ? 'BattleshipClass' : 'BattleshipClass2'
-      "
-      src="../assets/Battleship.png"
-      id="Battleship"
-      class="BattleshipClass"
-      data-ship-length="4"
-      data-ship-type="Battleship"
-      :draggable="true"
-      @dragstart="dragstart"
-      @dragover.stop
-      @click="turnShip($event, 'Battleship')"
-    >
-     BATTLESHIP
-    </div>
-
-     <div
-      v-else
-      src="../assets/Battleship2.png"
-      id="Battleship2"
-      class="BattleshipClass2"
-      data-ship-length="4"
-      data-ship-type="Battleship"
-      :draggable="true"
-      @dragstart="dragstart"
-      @dragover.stop
-      @click="turnShip($event, 'Battleship')"
-    >
-     BATTLESHIP
-    </div>
-
-    <div
-      v-if="shipOrientations['Carrier']"
-      :class="
-        shipOrientations['Carrier'] ? 'CarrierClass' : 'CarrierClass2'
-      "
-      src="../assets/Carrier.png"
-      id="Carrier"
-      class="CarrierClass"
-      data-ship-length="5"
-      data-ship-type="Carrier"
-      :draggable="true"
-      @dragstart="dragstart"
-      @dragover.stop
-      @click="turnShip($event, 'Carrier')"
-    >
-     CARRIER
-    </div>
-
-     <div
-      v-else
-      src="../assets/Carrier2.png"
-      id="Carrier2"
-      class="CarrierClass2"
-      data-ship-length="5"
-      data-ship-type="Carrier"
-      :draggable="true"
-      @dragstart="dragstart"
-      @dragover.stop
-      @click="turnShip($event, 'Carrier')"
-    >
-    CARRIER
-    </div>
-
-  
     <button @click="sendShips">Send ships</button>
+
     <button @click="sendSalvos">Send salvos</button>
 
     <div>
@@ -217,12 +158,14 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
-      counter : 0,
+      fetchingInterval: null,
+      // state : null,
+      counter: 0,
       positionShips: [],
       positionOppSalvoes: [],
       rows: ["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       cols: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-     
+
       shipOrientations: {
         PatrolBoat: true,
         Destroyer: true,
@@ -274,10 +217,14 @@ export default {
     },
     sendSalvos() {
       // window.location.reload();
-      return this.$store.dispatch("actPlaceSalvos", {
+      this.$store.dispatch("actPlaceSalvos", {
         gpId: this.gameId,
         salvos: this.salvosToSend
+      })
+      this.salvosToSend.forEach(salvo => {
+        document.getElementById(salvo + "salvo").classList.remove("shots")
       });
+      this.salvosToSend= [];
     },
 
     shipLocations(shipId, grid) {
@@ -287,6 +234,7 @@ export default {
       let char = grid.id.substring(0, 1);
       let num = Number(grid.id.substring(1));
       let newShipLocations = [];
+      let previousPositions = [];
 
       if (this.shipOrientations[ship.dataset.shipType]) {
         for (let i = 0; i < ship.dataset.shipLength; i++) {
@@ -308,113 +256,35 @@ export default {
           shipToSend.locations = newShipLocations;
         }
       });
-
-      //   if (this.shipOrientations[ship.dataset.shipType]) {
-      //     if (Number(ship.dataset.shipLength) + this.dataNum < 12) {
-      //       for (let i = 0; i < ship.dataset.shipLength; i++) {
-      //         newShipLocations.push(this.dataChar + (this.dataNum + i));
-      //         document
-      //           .getElementById(this.dataChar + (this.dataNum + i))
-      //           .classList.add(ship.dataset.shipType);
-      //       }
-      //     } else {
-      //       console.log("error horizontal orientation");
-      //     }
-      //   } else {
-      //     if (
-      //       Number(ship.dataset.shipLength) + this.dataChar.charCodeAt(0) <
-      //       76
-      //     ) {
-      //       for (let i = 0; i < ship.dataset.shipLength; i++) {
-      //         newShipLocations.push(this.dataChar.charCodeAt(0) + i);
-      //         document
-      //           .getElementById(
-      //             String.fromCharCode(this.dataChar.charCodeAt(0) + i) +
-      //               this.dataNum
-      //           )
-      //           .classList.add(ship.dataset.shipType);
-      //       }
-      //     } else {
-      //       console.log("error vertical orientation");
-      //     }
-      //   }
-
-      //   this.shipsToSend.forEach(shipToSend => {
-      //     if (shipToSend.type == ship.dataset.shipType) {
-      //       shipToSend.locations = newShipLocations;
-      //       console.log(shipToSend.locations);
-      //     }
-      //   });
     },
 
     turnShip(event, name) {
-      this.counter = 1
+      this.counter = 1;
       let grid = event.target.offsetParent;
       let shipId = event.target.id;
       let char = grid.id.substring(0, 1);
       let num = Number(grid.id.substring(1));
-      let ship = document.getElementById(shipId)     
+      let ship = document.getElementById(shipId);
       console.log(grid.id.length);
       console.log(char.charCodeAt(0));
-      
 
       if (
-        (
-          Number(ship.dataset.shipLength) + num < 12 &&
+        (Number(ship.dataset.shipLength) + num < 12 &&
           !this.shipOrientations[name]) ||
-        (
-          Number(ship.dataset.shipLength) + char.charCodeAt(0) < 76 &&
+        (Number(ship.dataset.shipLength) + char.charCodeAt(0) < 76 &&
           this.shipOrientations[name])
       ) {
-        
         this.shipOrientations[name] = !this.shipOrientations[name];
 
-       
-        if( this.checkFree(shipId, grid)){
-
+        if (this.checkFree(shipId, grid)) {
           this.shipConditions(shipId, grid);
-        } else{
-
-           this.shipOrientations[name] = !this.shipOrientations[name];
+        } else {
+          this.shipOrientations[name] = !this.shipOrientations[name];
         }
-      }
-      else{
+      } else {
         console.log("can't turn the ship here");
-        
       }
-
-      //   if (
-      //     (this.dataTarget.id.length != 1 &&
-      //       Number(this.dataShip.dataset.shipLength) + this.dataNum < 12 &&
-      //       !this.shipOrientations[this.dataShip.dataset.shipType]) ||
-      //     (this.dataTarget.id.length != 1 &&
-      //       Number(this.dataShip.dataset.shipLength) +
-      //         this.dataChar.charCodeAt(0) <
-      //         76 &&
-      //       this.shipOrientations[this.dataShip.dataset.shipType])
-      //   ) {
-      //     this.dataNum = Number(event.target.offsetParent.id.split("")[1]);
-      //     this.dataChar = event.target.offsetParent.id.split("")[0];
-      //     console.log(event.target);
-      //     this.dataSpliceNum = event.target.offsetParent.id.split("");
-      //     this.dataShip = document.getElementById(event.target.id);
-
-      //     this.orientationShip(ship);
-      //   } else {
-      //     console.log("cant turn the ship");
-      //   }
     },
-
-    // removeShips() {
-    //   let ship = this.dataShip;
-    //   let shipColorCells = Array.from(
-    //     document.getElementsByClassName(ship.dataset.shipType)
-    //   );
-
-    //   for (let i = 0; i < shipColorCells.length; i++) {
-    //     shipColorCells[i].classList.remove(ship.dataset.shipType);
-    //   }
-    // },
 
     shipConditions(shipId, grid) {
       let ship = document.getElementById(shipId);
@@ -446,27 +316,6 @@ export default {
         this.shipLocations(shipId, grid);
       } else {
         console.log("can't drop here");
-
-        //   if (
-        //     (this.dataTarget.id.length != 1 &&
-        //       Number(this.dataShip.dataset.shipLength) + this.dataNum < 12 &&
-        //       this.shipOrientations[this.dataShip.dataset.shipType]) ||
-        //     (this.dataTarget.id.length != 1 &&
-        //       Number(this.dataShip.dataset.shipLength) +
-        //         this.dataChar.charCodeAt(0) <
-        //         76 &&
-        //       !this.shipOrientations[this.dataShip.dataset.shipType])
-        //   ) {
-        //     this.dataShip.style.position = "absolute";
-        //     this.dataShip.style.display = "block";
-        //     this.dataTarget.appendChild(this.dataShip);
-
-        //     this.orientationShip();
-        //   } else {
-        //     console.log("error");
-        //   }
-        //   console.log(this.dataNewShipLocations);
-        //   console.log(this.dataShip.dataset.shipLength);
       }
     },
 
@@ -474,62 +323,68 @@ export default {
       let shipId = e.dataTransfer.getData("ship_id");
       let grid = e.target;
       let ship = document.getElementById(shipId);
+      let prevLocations = [];
 
-      console.log(shipId);
+      this.shipsToSend.forEach(shipToSend => {
+        if (shipToSend.type == shipId) {
+          prevLocations = shipToSend.locations;
+          shipToSend.locations = [];
+        }
+      });
+
+      document.getElementById(shipId).classList.add("visibility");
+
       console.log(ship);
 
-      if(this.checkFree(shipId,grid)){
-           this.shipConditions(shipId, grid);
-      }else{
+      if (this.checkFree(shipId, grid)) {
+        this.shipConditions(shipId, grid);
+      } else {
+        this.shipsToSend.find(
+          shipToSend => shipToSend.type == shipId
+        ).locations = prevLocations;
         console.log("can't drop here");
-        
       }
-
-    
-     
-      
-
-     
     },
 
     checkFree(shipId, grid) {
-    let ship = document.getElementById(shipId);
-    let char = grid.id.substring(0, 1);
-    let num = Number(grid.id.substring(1));
-    let shipLocations = [];
-    let equalizer = true
-   
-    
-    for (let i = this.counter ; i < ship.dataset.shipLength; i++) {
-      if (this.shipOrientations[ship.dataset.shipType]) {
-        this.shipsToSend.forEach(shipToSend=>{
-          if(shipToSend.locations.includes(char + (num +i))){
-              console.log("can't turn ship here");
-              equalizer = false
-          }
-        })
-      }
-      else{
-        this.shipsToSend.forEach(shipToSend=>{
-          if(shipToSend.locations.includes(String.fromCharCode(char.charCodeAt(0) + i) + num)){
-            console.log("can't turn ship here");
-            equalizer = false
-            
-          }
-        })
-        
-          
-      }
+      let ship = document.getElementById(shipId);
+      let char = grid.id.substring(0, 1);
+      let num = Number(grid.id.substring(1));
+      let shipLocations = [];
+      let equalizer = true;
 
-    }
-     return equalizer;
+      for (let i = this.counter; i < ship.dataset.shipLength; i++) {
+        if (this.shipOrientations[ship.dataset.shipType]) {
+          this.shipsToSend.forEach(shipToSend => {
+            if (shipToSend.locations.includes(char + (num + i))) {
+              console.log("can't turn ship here");
+              equalizer = false;
+            }
+          });
+        } else {
+          this.shipsToSend.forEach(shipToSend => {
+            if (
+              shipToSend.locations.includes(
+                String.fromCharCode(char.charCodeAt(0) + i) + num
+              )
+            ) {
+              console.log("can't turn ship here");
+              equalizer = false;
+            }
+          });
+        }
+      }
+      return equalizer;
     },
 
     dragstart(e) {
       var target = e.target;
       e.dataTransfer.setData("ship_id", target.id);
       this.counter = 0;
-      
+      document.getElementById(target.id).classList.remove("visibility");
+      // setTimeout(()=>{
+      //   target.style.display = "none"
+      // },1);
     },
 
     putSalvos(cell) {
@@ -561,23 +416,63 @@ export default {
       }
     }
   },
+
   created() {
     this.actOneGame(this.gameId);
+
+    this.fetchingInterval = setInterval(() => {
+      this.actOneGame(this.gameId);
+    }, 3000);
   },
+
   watch: {
     getOneGame() {
+       let stateInt = this.getOneGame.state.Logic;
+      console.log(stateInt);
+    
+      if (stateInt == "VICTORY" || stateInt == "DEFEAT" || stateInt == "DRAW") {
+         clearInterval(this.fetchingInterval);
+      } else {
+        clearInterval(this.fetchingInterval);
+
+      //   if (stateInt == "Place ships") {
+      //     this.fetchingInterval = setInterval(() => {
+      //       this.actOneGame(this.gameId);
+      //     }, 3000);
+      //   } else {
+      //     clearInterval(this.fetchingInterval);
+        
+
+      //   if (stateInt == "Waiting for opponent ships") {
+      //     this.fetchingInterval = setInterval(() => {
+      //       this.actOneGame(this.gameId);
+      //     }, 3000);
+      //   } else {
+      //     clearInterval(this.fetchingInterval);
+
+      //     if (stateInt == "Shots" || stateInt == "Waiting for opponent shots") {
+      //       this.fetchingInterval = setInterval(() => {
+      //         this.actOneGame(this.gameId);
+      //       }, 3000);
+      //     }  
+      //      else {
+      //       clearInterval(this.fetchingInterval);
+      //     }
+      //   }
+      // }
+      }
+
       setTimeout(() => {
         for (let i = 0; i < this.getOneGame.ships.length; i++) {
           let shipLoc = this.getOneGame.ships[i].location;
           let shipType = this.getOneGame.ships[i].type;
-        
 
           console.log(shipLoc);
           console.log(shipType);
 
           for (let j = 0; j < shipLoc.length; j++) {
             this.positionShips.push(shipLoc[j]); //************* */
-            this.positionShips.push(shipType[j]);
+
             document
               .getElementById(shipLoc[j])
               .classList.add(shipType.replace(/\s/g, ""));
@@ -631,17 +526,20 @@ export default {
           }
         }
 
-        for (let m = 0; m < this.getOneGame.opponentSalvoes.length; m++) {
-          let salvoOppLoc = this.getOneGame.opponentSalvoes[m].location;
+        if (this.getOneGame.opponentSalvoes != null) {
+          for (let m = 0; m < this.getOneGame.opponentSalvoes.length; m++) {
+            let salvoOppLoc = this.getOneGame.opponentSalvoes[m].location;
 
-          console.log(salvoOppLoc);
+            console.log(salvoOppLoc);
 
-          for (let n = 0; n < salvoOppLoc.length; n++) {
-            this.positionOppSalvoes.push(salvoOppLoc[n]);
-            document.getElementById(salvoOppLoc[n]).classList.add("shotsDone");
+            for (let n = 0; n < salvoOppLoc.length; n++) {
+              this.positionOppSalvoes.push(salvoOppLoc[n]);
+              document
+                .getElementById(salvoOppLoc[n])
+                .classList.add("shotsDone");
+            }
           }
         }
-
         for (let o = 0; o < this.positionShips.length; o++) {
           for (let p = 0; p < this.positionOppSalvoes.length; p++) {
             if (this.positionShips[o] == this.positionOppSalvoes[p]) {
@@ -651,6 +549,7 @@ export default {
             }
           }
         }
+      
       }, 1);
     }
   }
@@ -687,36 +586,32 @@ export default {
   display: flex;
 }
 
-.Destroyer {
-  background: grey;
-}
 .DestroyerClass {
-   width: 124.5px;
-  z-index: 1;
+  width: 124.5px;
   height: 40.5px;
-  background-color: grey;
+  background-image: url("../assets/Destroyer3.png");
+  background-size: cover;
+  top: 0px;
 }
 .DestroyerClass2 {
- width: 40.5px;
-  background-color: grey;
-  z-index: 1;
+  width: 40.5px;
+  background-image: url("../assets/Destroyer4.png");
+  background-size: cover;
   height: 124.5px;
   top: 0px;
 }
 
-.PatrolBoat {
-  background: darkgreen;
-}
 .PatrolBoatClass {
   width: 83px;
-  z-index: 1;
   height: 40.5px;
-  background-color: darkgreen;
+  background-image: url("../assets/PatrolBoat.png");
+  background-size: cover;
+  top: 0px;
 }
 .PatrolBoatClass2 {
   width: 40.5px;
-  background-color: darkgreen;
-  z-index: 1;
+  background-image: url("../assets/PatrolBoat2.png");
+  background-size: cover;
   height: 83px;
   top: 0px;
 }
@@ -736,22 +631,20 @@ export default {
   height: 209px;
   top: 0px;
 }
-.Submarine {
-  background: yellow;
-}
+
 .SubmarineClass2 {
-  width: 40.5px;
-  background-color: yellow;
-  z-index: 1;
-  height: 83px;
+  width: 124.5px;
+  height: 40.5px;
+  background-image: url("../assets/Submarine.png");
+  background-size: cover;
   top: 0px;
 }
 .SubmarineClass {
-   width: 124.5px;
-  z-index: 1;
+  width: 124.5px;
+  top: 0px;
   height: 40.5px;
-  background-color: yellow;
-
+  background-image: url("../assets/Submarine2.png");
+  background-size: cover;
 }
 .Battleship {
   background: slateblue;
@@ -764,9 +657,9 @@ export default {
 }
 .BattleshipClass2 {
   width: 40.5px;
-  background-color:slateblue;
+  background-color: slateblue;
   z-index: 1;
-  height:166.5px;
+  height: 166.5px;
   top: 0px;
 }
 .versus {
@@ -783,5 +676,8 @@ export default {
 }
 .shipSunk {
   background: greenyellow;
+}
+.visibility {
+  z-index: 1;
 }
 </style>
