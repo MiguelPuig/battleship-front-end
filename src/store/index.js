@@ -17,12 +17,6 @@ export default new Vuex.Store({
   },
   actions: {
 
-    // fetchingInt(){
-    //   var fetchingINterval = setInterval(actOneGame, 1000)
-
-    //   clearInterval(fetchingINterval);
-    // },
-
     getAllGames(context) {
       fetch(url + "/api/games", {
         credentials: "include",
@@ -90,8 +84,13 @@ export default new Vuex.Store({
         method: "POST",
         body: getBody({ name: payload.userName, pwd: payload.password })
       })
+     
         .then(function(data) {
-          console.log("Request success: ", data);
+          if (data.status == 200) {
+            console.log("Request success: ", data);
+            router.push("/home");
+          }else
+          console.log("Request failure: ", data);
         })
         .catch(function(error) {
           console.log("Request failure: ", error);
@@ -116,8 +115,10 @@ export default new Vuex.Store({
         },
         method: "POST"
       })
+      
         .then(function(data) {
           console.log("Request success: ", data);
+          router.push("/");
         })
         .catch(function(error) {
           console.log("Request failure: ", error);
@@ -133,6 +134,7 @@ export default new Vuex.Store({
         method: "POST",
         body: JSON.stringify(payload)
       })
+      
         .then(function(data) {
           if (data.error) {
             console.log("Request failure: ", data);

@@ -1,17 +1,41 @@
 <template>
-  <div>
-    <form id="register-form" onsubmit="return false">
-      <label>Name: <input type="text" name="username" v-model="userName"/></label>
-      <label
-        >Password: <input type="text" name="password" v-model="password"
-      /></label>
-      <label>
-        E-mail: <input type="text" name="email" v-model="email" />
-      </label>
+ 
 
-      <button v-on:click="register">Register</button>
+    <div class="title">
+
+<h1>STAR WARS BATTLESHIP</h1>
+
+  <div class="login">
+
+
+    <div class="backgroundLogin">
+    <form class="form" id="login-form" onsubmit="return false">
+      <v-text-field dark label="Name" name="username" v-model="userName" :rules="nameRules" required
+            
+        > 
+      </v-text-field>
+      <v-text-field dark label = "Password"  name="password" v-model="password" :rules="passwordRules" required
+        > 
+      </v-text-field>
+
+    
+      <v-text-field dark label = "E-mail"  name="email" v-model="email" :rules="emailRules" required
+        > 
+      </v-text-field>
+      <div class="loginButton">
+
+       
+      <v-btn dark v-on:click=" register">Sing in</v-btn>
+       
+
+      </div>
     </form>
+    </div>
+
   </div>
+  </div>
+    
+ 
 </template>
 
 <script>
@@ -19,6 +43,9 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
+        nameRules: [v => !!v || "Name is required"],
+      passwordRules: [v => !!v || "Password is required"],
+      emailRules: [v => !!v || "E-mail is required"],
       userName: "",
       password: "",
       email: ""
@@ -33,4 +60,39 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.login{
+      display: flex;
+    justify-content: center;
+    padding-top: 150px;
+   
+   height: 650px;
+   
+}
+.form{
+background-color: black;
+ padding: 20px;
+}
+.loginButton{
+      display: flex;
+    justify-content: center;
+    padding-top: 20px;
+
+}
+.backgroundLogin{
+  background-image: url("../assets/backgroundLogin1.jpg");
+  
+}
+h1{
+  text-align: center;
+  color: white;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  
+}
+.title{
+   background-image: url("../assets/background3.jpg");
+    background-size: cover;
+}
+</style>
+

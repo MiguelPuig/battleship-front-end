@@ -1,16 +1,52 @@
 <template>
-  <div>
-      <div class="table">
-    <table>
-      <tr class="tableTitle">
-        <th>Player</th>
-        <th>Wins</th>
-        <th>Loses</th>
-        <th>Ties</th>
-        <th>Total Score</th>
-      </tr>
-      <tr class="tableBody" v-for="(player, index) in getBoard" :key="index">
-        <td>
+<v-app>
+  <div class="game" v-if="getGames">
+
+  
+       <v-toolbar dark dense>
+     
+
+      <v-toolbar-title>{{getGames.player.userName}}</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+    
+        
+       <v-btn icon class="navbarButton" v-on:click="logOut">Log Out</v-btn>
+        
+    
+
+    
+         <router-link :to="'/home'">
+         
+          <v-btn class="navbarButton" icon>
+             Games
+      </v-btn>
+         
+         </router-link>
+        
+      
+
+
+       </v-toolbar>
+
+         <v-container>
+
+    <h1>LADDER BOARD</h1>
+     <v-simple-table dark>
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th>PLAYER</th>
+        <th>WINS</th>
+        <th>LOSES</th>
+        <th>TIES</th>
+        <th>TOTAL SCORE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(player, index) in getBoard" :key="index">
+          <td>
           {{ player.player }}
         </td>
         <td>
@@ -25,17 +61,25 @@
         <td>
           {{ player.points }}
         </td>
-      </tr>
-    </table>
-    </div>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
+
+         </v-container>
+
+
+     
   </div>
+</v-app>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
+   props: ["gameId"],
   computed: {
-    ...mapGetters(["getLadderBoard"]),
+    ...mapGetters(["getLadderBoard", "getGames"]),
     getBoard() {
       let ladderBoard = [];
       this.getLadderBoard.forEach(player => {
@@ -78,36 +122,36 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["actLadderBoard"])
+    ...mapActions(["actLadderBoard", "getAllGames","actLogOut"]),
+     logOut(){
+      this.actLogOut()
+    },
+
   },
   created() {
     this.actLadderBoard();
+     this.getAllGames();
   }
 };
 </script>
 
 <style>
-.tableBody{
-    display: flex;
-    justify-content: space-between;
-}
-.tableTitle{
-    display: flex;
-    justify-content: space-around;
+
+td{
+  text-align: center;
 }
 th{
-    width: 120px;
-    background-color: steelblue;
-    color: white;
-    padding: 10px;
+  font-weight: bold;
+  font-size: 15px !important;
+  text-align: center !important;
 }
-td{
-    width: 120px;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    padding: 10px;
+.game{
+  background:black;
+  min-height: 650px;
 }
-tr:nth-child(even){background-color: #f2f2f2}
-;
+h1{
+  text-align: center;
+  padding: 20px;
+}
+
 </style>
