@@ -26,7 +26,9 @@
 
         
       <v-btn dark v-on:click=" register">Sing in</v-btn>
-       
+      <router-link to="/">
+       <v-btn dark>Back</v-btn>
+      </router-link>
 
       </div>
     </form>
@@ -77,6 +79,7 @@ background-color: black;
       display: flex;
     justify-content: center;
     padding-top: 20px;
+    padding-left: 5px;
 
 }
 
