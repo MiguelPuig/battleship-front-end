@@ -24,7 +24,7 @@
       </v-text-field>
       <div class="loginButton">
 
-       
+        
       <v-btn dark v-on:click=" register">Sing in</v-btn>
        
 
@@ -66,7 +66,7 @@ export default {
     justify-content: center;
     padding-top: 150px;
    
-   height: 650px;
+
    
 }
 .form{
@@ -90,6 +90,7 @@ h1{
 .title{
    background-image: url("../assets/background3.jpg");
     background-size: cover;
+    height:  700px
    
 }
 </style>

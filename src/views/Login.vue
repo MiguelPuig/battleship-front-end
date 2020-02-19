@@ -62,7 +62,7 @@ export default {
   justify-content: center;
   padding-top: 150px;
 
-  height: 600px;
+ 
 }
 .form {
   background-color: black;
@@ -73,10 +73,7 @@ export default {
   justify-content: space-between;
   padding-top: 20px;
 }
-/* .backgroundLogin{
-  background-image: url("../assets/backgroundLogin1.jpg");
-  
-} */
+
 h1 {
   text-align: center;
   color: white;
@@ -86,6 +83,6 @@ h1 {
 .title {
   background-image: url("../assets/background3.jpg");
   background-size: cover;
- 
+ height: 100vh;
 }
 </style>
