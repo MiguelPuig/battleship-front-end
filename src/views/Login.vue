@@ -14,7 +14,7 @@
             required
           >
           </v-text-field>
-          <v-text-field dark label="Password" name="password" v-model="pwd"  :rules="passwordRules"
+          <v-text-field type="password" dark label="Password" name="password" v-model="pwd"  :rules="passwordRules"
             required>
           </v-text-field>
           <div class="loginButton">

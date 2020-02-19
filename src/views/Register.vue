@@ -14,7 +14,7 @@
             
         > 
       </v-text-field>
-      <v-text-field dark label = "Password"  name="password" v-model="password" :rules="passwordRules" required
+      <v-text-field dark  type= "password" label = "Password"  name="password" v-model="password" :rules="passwordRules" required
         > 
       </v-text-field>
 

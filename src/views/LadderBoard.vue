@@ -32,7 +32,7 @@
 
          <v-container>
 
-    <h1>LADDER BOARD</h1>
+    <h1>LEADERBOARD</h1>
      <v-simple-table dark>
     <template v-slot:default>
       <thead>
@@ -152,6 +152,7 @@ th{
 h1{
   text-align: center;
   padding: 20px;
+  color: white
 }
 
 </style>
