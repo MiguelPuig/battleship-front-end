@@ -79,10 +79,7 @@ background-color: black;
     padding-top: 20px;
 
 }
-.backgroundLogin{
- background-color: black;
-  
-}
+
 h1{
   text-align: center;
   color: white;
@@ -93,7 +90,7 @@ h1{
 .title{
    background-image: url("../assets/background3.jpg");
     background-size: cover;
-    height: 600px;
+   
 }
 </style>
 

@@ -147,7 +147,7 @@ th{
 }
 .game{
   background:black;
-  min-height: 650px;
+  height: 100%;
 }
 h1{
   text-align: center;
