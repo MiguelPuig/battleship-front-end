@@ -62,7 +62,7 @@ export default {
   justify-content: center;
   padding-top: 150px;
 
-  height: 650px;
+  height: 600px;
 }
 .form {
   background-color: black;
@@ -86,5 +86,6 @@ h1 {
 .title {
   background-image: url("../assets/background3.jpg");
   background-size: cover;
+ 
 }
 </style>

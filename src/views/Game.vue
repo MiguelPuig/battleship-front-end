@@ -589,7 +589,7 @@ export default {
 
     this.fetchingInterval = setInterval(() => {
       this.actOneGame(this.gameId);
-    }, 30000);
+    }, 3000);
   },
 
   beforeDestroy() {
@@ -969,6 +969,7 @@ export default {
 .game {
   background-image: url("../assets/background1.jpg");
   background-size: cover;
+  height: 900px;
 }
 .sendShips {
   margin-top: 30px;

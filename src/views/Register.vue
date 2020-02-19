@@ -80,7 +80,7 @@ background-color: black;
 
 }
 .backgroundLogin{
-  background-image: url("../assets/backgroundLogin1.jpg");
+ background-color: black;
   
 }
 h1{
@@ -93,6 +93,7 @@ h1{
 .title{
    background-image: url("../assets/background3.jpg");
     background-size: cover;
+    height: 600px;
 }
 </style>
 

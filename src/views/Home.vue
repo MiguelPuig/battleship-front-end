@@ -85,6 +85,7 @@ export default {
   components: {},
   data() {
     return {
+      fetchingInterval: null,
       search: "",
       tags: [],
       items: [
@@ -118,6 +119,9 @@ export default {
   },
   created() {
     this.getAllGames();
+    this.fetchingInterval = setInterval(() => {
+      this.getAllGames();
+    }, 3000);
   }
 };
 </script>
@@ -139,6 +143,7 @@ td {
 }
 .home {
   background: black;
+  height: 100%;
 }
 .navbarButton {
   width: 200px !important;
