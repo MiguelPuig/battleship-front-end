@@ -90,7 +90,7 @@ h1{
 .title{
    background-image: url("../assets/background3.jpg");
     background-size: cover;
-    height:  700px
+   
    
 }
 </style>
